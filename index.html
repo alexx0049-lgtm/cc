@@ -1,10 +1,16 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cabin Crew Academy — Complete CCOM</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cabin Crew">
+<meta name="theme-color" content="#07111f">
 <style>
 :root{--bg:#07111f;--p:#0d1b2d;--p2:#11243b;--t:#f5f8fc;--m:#9fb0c5;--a:#58a6ff;--g:#41d17d;--r:#ff647c;--b:rgba(255,255,255,.09)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(180deg,#07111f,#09182a);color:var(--t);min-height:100vh}.app{max-width:1100px;margin:auto;padding:18px}
 .top{display:flex;justify-content:space-between;gap:12px;align-items:center}.top h1{margin:0;font-size:clamp(24px,5vw,40px)}.muted{color:var(--m)}.pill,.hero,.card,.quiz{border:1px solid var(--b);background:rgba(13,27,45,.92);border-radius:20px}.pill{padding:9px 13px;font-weight:800}.hero{padding:20px;margin:20px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:11px}.card{padding:16px;cursor:pointer}.card:hover{border-color:#58a6ff}.card h3{margin:0 0 6px}.tag{display:inline-block;margin-top:10px;padding:5px 8px;border-radius:8px;background:#142f4d;color:#9dcbff;font-size:12px}.progress{height:9px;background:#192d45;border-radius:99px;overflow:hidden;margin:10px 0}.progress div{height:100%;background:linear-gradient(90deg,var(--a),var(--g))}.primary,.secondary{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{background:var(--a);color:#04111f}.secondary{background:#18314e;color:white}.view{display:none}.view.on{display:block}.quiz{padding:21px}.meta{display:flex;justify-content:space-between;gap:10px;color:var(--m);margin-bottom:10px}.question{font-size:21px;line-height:1.45;margin:18px 0}.answers{display:grid;gap:9px}.ans{padding:13px;text-align:left;border:1px solid var(--b);border-radius:12px;background:var(--p2);color:white;cursor:pointer}.ans.sel{outline:2px solid var(--a)}.ans.good{border-color:var(--g);background:rgba(65,209,125,.14)}.ans.bad{border-color:var(--r);background:rgba(255,100,124,.14)}.feedback{display:none;margin-top:15px;padding:14px;border-radius:12px;background:#10253c;line-height:1.5}.feedback.on{display:block}.actions{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}.back{background:none;border:0;color:#9dcbff;padding:8px 0;cursor:pointer}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.filters button{padding:8px 11px;border-radius:10px;border:1px solid var(--b);background:#122842;color:white;cursor:pointer}.chpick{display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid var(--b);border-radius:10px;background:#122842;cursor:pointer}.chpick input{accent-color:var(--a);width:17px;height:17px}
 @media(max-width:600px){.app{padding:13px}.question{font-size:18px}.meta{font-size:12px}}</style></head><body><div class="app">
-<div class="top"><div><h1>✈ Cabin Crew Academy</h1><div class="muted">CCOM FOE 26 JAN 2026 • all chapters</div></div><div class="pill" id="xp">0 XP</div></div>
+<div class="top"><div><h1>✈ Cabin Crew Academy</h1><div class="muted">CCOM FOE 26 JAN 2026 • all chapters</div></div><div style="display:flex;gap:8px;align-items:center"><div class="pill" id="offlineStatus">Checking…</div><div class="pill" id="xp">0 XP</div></div></div>
 <section id="home" class="view on"><div class="hero"><h2 style="margin-top:0">Full CCOM question bank</h2><div id="summary" class="muted"></div><div class="progress"><div id="allProg"></div></div><div class="actions"><button class="primary" onclick="startRandom()">Random Exam — 50</button><button class="secondary" onclick="startMistakes()">Mistakes</button></div>
 <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--b)">
   <h3 style="margin:0 0 5px">Custom Quiz</h3>
@@ -37,4 +43,21 @@ function selectedChapters(){return [...document.querySelectorAll(".chapterPick:c
 function selectAllChapters(){document.querySelectorAll(".chapterPick").forEach(x=>x.checked=true)}
 function clearChapters(){document.querySelectorAll(".chapterPick").forEach(x=>x.checked=false)}
 function startCustom(){let cs=selectedChapters();if(!cs.length){alert("Select at least one chapter.");return}let pool=shuffle(DATA.questions.filter(q=>cs.includes(q.chapter)));let n=$("customCount").value;bank=n==="all"?pool:pool.slice(0,Math.min(Number(n),pool.length));begin()}
-function goHome(){location.reload()}buildChapterChecks();grid();save();</script></body></html>
+function goHome(){location.reload()}buildChapterChecks();grid();save();</script>
+<script>
+function updateOfflineStatus(){
+  const el=document.getElementById("offlineStatus");
+  if(!el) return;
+  el.textContent = navigator.onLine ? "Online" : "Offline ✓";
+}
+window.addEventListener("online", updateOfflineStatus);
+window.addEventListener("offline", updateOfflineStatus);
+updateOfflineStatus();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(console.error);
+  });
+}
+</script>
+</body></html>

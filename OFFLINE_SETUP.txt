@@ -1,0 +1,22 @@
+CABIN CREW ACADEMY — OFFLINE / PWA
+
+DEPLOYMENT
+Upload ALL files in this folder to the same GitHub/Cloudflare Pages site:
+- index.html
+- data.js
+- manifest.webmanifest
+- service-worker.js
+- icon-192.png
+- icon-512.png
+- apple-touch-icon.png
+
+IPHONE / IPAD
+1. Open the deployed site once while online.
+2. Wait a few seconds so the offline cache is installed.
+3. Safari -> Share -> Add to Home Screen.
+4. Launch it from the Home Screen.
+5. It will work later without internet / in Airplane Mode.
+
+IMPORTANT:
+A service worker requires HTTPS (GitHub Pages / Cloudflare Pages are fine).
+It will not fully install as a PWA if you simply open index.html as a local file on iPhone.
