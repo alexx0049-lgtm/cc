@@ -1,4 +1,4 @@
-const CACHE = "cabin-crew-academy-ro-v5";
+const CACHE = "cabin-crew-academy-romana-final-1";
 const ASSETS = [
   "./",
   "./index.html",
